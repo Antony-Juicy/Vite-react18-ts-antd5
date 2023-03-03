@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form, Input, message, Spin } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { Login } from '../../../http/interface'
@@ -9,12 +9,15 @@ import {
 } from '@ant-design/icons'
 import { loginApi, loginApi1 } from '../../../http/modules/login'
 import styles from './index.module.less'
-import { setCompanyInfo } from '@/utils/auth'
+import { setCompanyInfo, setAccessToken } from '@/utils/auth'
 import { useBoolean } from 'ahooks'
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 const LoginForm = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
+  // 设备指纹
+  const [fpHash, setFpHash] = React.useState('')
   const [loading, setLoading] = useState<boolean>(false)
   // const [loading, { setTrue: showLoading, setFalse: hideLoading }] =
   //   useBoolean(false)
@@ -26,6 +29,7 @@ const LoginForm = () => {
       message.success('登录成功！')
       form.resetFields()
       setCompanyInfo(loginForm)
+      setAccessToken(fpHash)
       navigate('/home')
     } finally {
       setLoading(false)
@@ -39,6 +43,16 @@ const LoginForm = () => {
   const goRegister = async () => {
     navigate('/register')
   }
+  useEffect(() => {
+    const setFp = async () => {
+      const fp = await FingerprintJS.load()
+
+      const { visitorId } = await fp.get()
+
+      setFpHash(visitorId)
+    }
+    setFp()
+  })
 
   return (
     <Form

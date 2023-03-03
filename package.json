@@ -12,15 +12,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^3.4.0",
     "ahooks": "^3.7.5",
     "craco-less": "2.0.0",
     "crypto-js": "^4.1.1",
     "less-loader": "^11.1.0",
     "moment": "^2.29.4",
+    "npm": "^9.6.0",
     "number-precision": "^1.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "terser": "^5.16.5"
+    "terser": "^5.16.5",
+    "ua-device": "^0.1.10"
   },
   "devDependencies": {
     "@types/node": "^18.11.10",
