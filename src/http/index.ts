@@ -66,7 +66,7 @@ class RequestHttp {
     // 实例化axios
     this.service = axios.create(config)
     this.service.interceptors.request.use(
-      (config: AxiosRequestConfig) => {
+      (config: any) => {
         config.headers?.showLoading && showLoading()
         //todo const token ="eyJhbGciOiJIUzI1NiJ9.eyJvZmZpY2Vf";
         return { ...config, headers: { ...config.headers } }

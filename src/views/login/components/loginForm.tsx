@@ -9,7 +9,6 @@ import {
 } from '@ant-design/icons'
 import { loginApi, loginApi1 } from '../../../http/modules/login'
 import styles from './index.module.less'
-
 const LoginForm = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
@@ -17,6 +16,7 @@ const LoginForm = () => {
 
   // 登录
   const onFinish = async (loginForm: Login.ReqLoginForm) => {
+    console.log(loginForm, 'ssasa')
     try {
       setLoading(true)
       const { data } = await loginApi1(loginForm)
