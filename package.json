@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --mode dev",
+    "dev": "vite --mode dev --open",
     "build": "tsc && vite build",
     "build:prod": "tsc && vite build --mode prod",
     "build:test": "tsc && vite build --mode test",
@@ -15,7 +15,8 @@
     "craco-less": "2.0.0",
     "less-loader": "^11.1.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "terser": "^5.16.5"
   },
   "devDependencies": {
     "@types/node": "^18.11.10",
