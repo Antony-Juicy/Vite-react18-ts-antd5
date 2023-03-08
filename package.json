@@ -26,6 +26,7 @@
     "ua-device": "^0.1.10"
   },
   "devDependencies": {
+    "@locator/babel-jsx": "^0.2.4",
     "@types/node": "^18.11.10",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
