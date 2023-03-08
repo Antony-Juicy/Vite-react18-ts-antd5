@@ -1,164 +1,83 @@
 import React, { useState, useEffect } from 'react'
-// import './index.less'
-// function TrafficLight() {
-//   const [color, setColor] = useState('red')
+import cx from 'classnames'
+import Style from './index.module.less'
 
-//   useEffect(() => {
-//     let intervalId: any
-
-//     if (color === 'red') {
-//       intervalId = setInterval(() => {
-//         setColor('green')
-//       }, 20000)
-//     } else if (color === 'green') {
-//       let blink = false
-//       intervalId = setInterval(() => {
-//         if (blink) {
-//           setColor('black')
-//         } else {
-//           setColor('green')
-//         }
-//         blink = !blink
-//       }, 5000)
-//       setTimeout(() => {
-//         setColor('yellow')
-//       }, 15000)
-//     } else {
-//       intervalId = setInterval(() => {
-//         setColor('red')
-//       }, 5000)
-//     }
-
-//     return () => {
-//       clearInterval(intervalId)
-//     }
-//   }, [color])
-
-//   return (
-//     <div>
-//       <div
-// style={{
-//   width: '50px',
-//   height: '50px',
-//   borderRadius: '50%',
-//   backgroundColor: color === 'red' ? 'red' : 'black',
-//   margin: '10px',
-// }}
-//       />
-//       <div
-//         style={{
-//           width: '50px',
-//           height: '50px',
-//           borderRadius: '50%',
-//           backgroundColor: color === 'yellow' ? 'yellow' : 'black',
-//           margin: '10px',
-//         }}
-//       />
-//       <div
-//         style={{
-//           width: '50px',
-//           height: '50px',
-//           borderRadius: '50%',
-//           backgroundColor: color === 'green' ? 'green' : 'black',
-//           margin: '10px',
-//         }}
-//       />
-//     </div>
-//   )
-// }
-
-// export default TrafficLight
+let oneSecInterval: NodeJS.Timeout
+let thirtySecInterval: NodeJS.Timeout
 
 const TrafficLightController = () => {
-  const TRAFFIC_LIGHT_COLORS = {
-    RED: 'red',
-    YELLOW: 'yellow',
-    GREEN: 'green',
-  }
+  const [isRedLightOpened, setIsRedLightOpened] = useState<boolean>(false)
+  const [isYellowLightOpened, setIsYellowLightOpened] = useState<boolean>(false)
+  const [isGreenLightOpened, setIsGreenLightOpened] = useState<boolean>(false)
 
-  const TRAFFIC_LIGHT_TIMINGS = {
-    [TRAFFIC_LIGHT_COLORS.RED]: 20,
-    [TRAFFIC_LIGHT_COLORS.YELLOW]: 5,
-    [TRAFFIC_LIGHT_COLORS.GREEN]: 20,
-    [`${TRAFFIC_LIGHT_COLORS.GREEN}-BLINK`]: 5,
-  }
+  const circleLights = () => {
+    let sec: number = 0
+    const cicle = () => {
+      setIsRedLightOpened(true)
 
-  const TrafficLight = ({ color }: any) => (
-    <div
-      style={{
-        backgroundColor: color,
-        borderRadius: '50%',
-        height: '50px',
-        width: '50px',
-        margin: '10px',
-      }}
-    />
-  )
-  const [currentColor, setCurrentColor] = useState(TRAFFIC_LIGHT_COLORS.RED)
-  const [remainingTime, setRemainingTime] = useState(
-    TRAFFIC_LIGHT_TIMINGS[TRAFFIC_LIGHT_COLORS.RED]
-  )
+      oneSecInterval = setInterval(() => {
+        sec = sec + 1
+        console.log('@!sec', sec)
+
+        if (sec === 20) {
+          setIsRedLightOpened(false)
+          setIsYellowLightOpened(true)
+        } else if (sec === 25) {
+          setIsYellowLightOpened(false)
+          setIsGreenLightOpened(true)
+        } else if (sec > 25) {
+          if (sec >= 30) {
+            setIsGreenLightOpened(false)
+
+            sec = 0
+            clearInterval(oneSecInterval)
+          } else if (!(sec % 2)) {
+            setIsGreenLightOpened(false)
+            console.log('====')
+          } else if (sec % 2) {
+            setIsGreenLightOpened(true)
+            console.log('----')
+          }
+        }
+      }, 1000)
+    }
+    cicle()
+    thirtySecInterval = setInterval(() => {
+      cicle()
+    }, 30 * 1000)
+  }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (remainingTime === 0) {
-        switch (currentColor) {
-          case TRAFFIC_LIGHT_COLORS.RED:
-            setCurrentColor(TRAFFIC_LIGHT_COLORS.GREEN)
-            setRemainingTime(TRAFFIC_LIGHT_TIMINGS[TRAFFIC_LIGHT_COLORS.GREEN])
-            break
-          case TRAFFIC_LIGHT_COLORS.GREEN:
-            setCurrentColor(TRAFFIC_LIGHT_COLORS.YELLOW)
-            setRemainingTime(TRAFFIC_LIGHT_TIMINGS[TRAFFIC_LIGHT_COLORS.YELLOW])
-            break
-          case TRAFFIC_LIGHT_COLORS.YELLOW:
-            setCurrentColor(`${TRAFFIC_LIGHT_COLORS.GREEN}-BLINK`)
-            setRemainingTime(
-              TRAFFIC_LIGHT_TIMINGS[`${TRAFFIC_LIGHT_COLORS.GREEN}-BLINK`]
-            )
-            break
-          case `${TRAFFIC_LIGHT_COLORS.GREEN}-BLINK`:
-            setCurrentColor(TRAFFIC_LIGHT_COLORS.RED)
-            setRemainingTime(TRAFFIC_LIGHT_TIMINGS[TRAFFIC_LIGHT_COLORS.RED])
-            break
-          default:
-            break
-        }
-      } else {
-        setRemainingTime((prevTime) => prevTime - 1)
-      }
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [currentColor, remainingTime])
+    circleLights()
+    return () => {
+      clearInterval(thirtySecInterval)
+      clearInterval(oneSecInterval)
+    }
+  }, [])
 
   return (
-    <div
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-    >
-      <TrafficLight
-        color={
-          currentColor === TRAFFIC_LIGHT_COLORS.RED
-            ? TRAFFIC_LIGHT_COLORS.RED
-            : 'gray'
-        }
-      />
-      <TrafficLight
-        color={
-          currentColor === TRAFFIC_LIGHT_COLORS.YELLOW
-            ? TRAFFIC_LIGHT_COLORS.YELLOW
-            : 'gray'
-        }
-      />
-      <TrafficLight
-        color={
-          currentColor === TRAFFIC_LIGHT_COLORS.GREEN ||
-          currentColor === `${TRAFFIC_LIGHT_COLORS.GREEN}-BLINK`
-            ? TRAFFIC_LIGHT_COLORS.GREEN
-            : 'gray'
-        }
-      />
-    </div>
+    <>
+      <div>
+        <div
+          className={cx(
+            Style.defaultLight,
+            isRedLightOpened ? Style.redLight : Style.greyLight
+          )}
+        />
+        <div
+          className={cx(
+            Style.defaultLight,
+            isYellowLightOpened ? Style.yellowLight : Style.greyLight
+          )}
+        />
+        <div
+          className={cx(
+            Style.defaultLight,
+            isGreenLightOpened ? Style.greenLight : Style.greyLight
+          )}
+        />
+      </div>
+    </>
   )
 }
 export default TrafficLightController
