@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FC } from 'react'
 import cx from 'classnames'
 import Style from './index.module.less'
 
 let oneSecInterval: NodeJS.Timeout
 let thirtySecInterval: NodeJS.Timeout
 
-const TrafficLightController = () => {
+const TrafficLightController: FC = () => {
   const [isRedLightOpened, setIsRedLightOpened] = useState<boolean>(false)
   const [isYellowLightOpened, setIsYellowLightOpened] = useState<boolean>(false)
   const [isGreenLightOpened, setIsGreenLightOpened] = useState<boolean>(false)

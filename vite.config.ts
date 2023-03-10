@@ -42,13 +42,19 @@ export default defineConfig({
     },
   },
 
-  // css: {
-  //   // 配置 css-module
-  //   modules: {
-  //     // 开启 camelCase 格式变量名转换
-  //     localsConvention: 'camelCase',
-  //     // 类名 前缀
-  //     generateScopedName: '[local]-[hash:base64:5]',
-  //   },
-  // },
+  css: {
+    // 配置 css-module
+    modules: {
+      // 开启 camelCase 格式变量名转换
+      localsConvention: 'camelCase',
+      // 类名 前缀
+      generateScopedName: '[local]-[hash:base64:5]',
+    },
+    // 预处理器配置项
+    preprocessorOptions: {
+      less: {
+        math: 'always',
+      },
+    },
+  },
 })

@@ -28,3 +28,10 @@ declare let ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
   | undefined
 
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false
+
+// 如果是cra生成的项目，则在react-app-env.d.ts中添加
+// 为模块声明类型
+declare module '*.module.less' {
+  const classes: { readonly [key: string]: string }
+  export default classes
+}
