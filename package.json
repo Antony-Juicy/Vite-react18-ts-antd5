@@ -12,9 +12,8 @@
     "preview": "vite preview",
     "lint:js": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "lint:prettier": "prettier -c --write \"src/**/*\"",
-    "lint:style": "stylelint \"**/*.css\"",
+    "lint:style":  "stylelint --fix \"src/**/*.module.less\" --custom-syntax postcss-less",
     "lint:js:fix": "eslint --ext .js,.jsx,.ts,.tsx ./src --fix",
-    "lint:style:fix": "stylelint \"**/*.css\" --fix",
     "prepare": "husky install"
   },
   "lint-staged": {
