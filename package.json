@@ -11,13 +11,13 @@
     "build:dev": "tsc && vite build --mode dev",
     "preview": "vite preview",
     "lint:js": "eslint --ext .js,.jsx,.ts,.tsx ./src",
+    "lint:style": "stylelint \"**/*.css\"",
     "lint:prettier": "prettier -c --write \"src/**/*\"",
-    "lint:style":  "stylelint --fix \"src/**/*.module.less\" --custom-syntax postcss-less",
-    "lint:js:fix": "eslint --ext .js,.jsx,.ts,.tsx ./src --fix",
+    "lint-staged": "lint-staged",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "**/*.css": "stylelint",
+    "**/*.module.less": "stylelint",
     "**/*.{js,jsx,ts,tsx}": "eslint --ext .js,.jsx,.ts,.tsx",
     "**/*.{js,jsx,tsx,ts,css,md,json}": "prettier --ignore-unknown --write"
   },
