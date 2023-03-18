@@ -5,6 +5,7 @@ import axios, {
   AxiosResponse,
 } from 'axios'
 import { message } from 'antd'
+
 import { hideLoading, showLoading } from '../components/BasicLoading'
 
 const config = {
@@ -68,8 +69,19 @@ class RequestHttp {
     this.service.interceptors.request.use(
       (config: any) => {
         config.headers?.showLoading && showLoading()
-        //todo const token ="eyJhbGciOiJIUzI1NiJ9.eyJvZmZpY2Vf";
-        return { ...config, headers: { ...config.headers } }
+
+        //TODO:
+        const token = 'eyJhbGciOiJIUzI1NiJ9.eyJvZmZpY2Vf'
+
+        return {
+          ...config,
+          headers: {
+            ...config.headers,
+            admin: 'test',
+            token,
+            language: 'zh_HK',
+          },
+        }
       },
       (error: AxiosError) => {
         return Promise.reject(error)

@@ -1,0 +1,15 @@
+.eslintrc.js
+node_modules
+dist
+.DS_Store
+*.local
+
+/lambda/
+/scripts
+/config
+.history
+public
+dist
+.umi
+mock
+/kapi.config.ts
